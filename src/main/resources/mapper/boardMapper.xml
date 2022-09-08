@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fastcampus.ch4.dao.BoardMapper">
+    <select id="select" parameterType="int" resultType="BoardDto">
+        select * from board
+        where bno = #{bno}
+    </select>
+
+    <insert id="insert" parameterType="BoardDto">
+        INSERT INTO board
+            (title,content,writer)
+        VALUES
+            (#{title},#{content},#{writer})
+    </insert>
+
+
+
+    <delete id="deleteAll">
+        DELETE FROM board
+    </delete>
+
+    <select id="count" resultType="int">
+        SELECT count(*) FROM BOARD
+    </select>
+</mapper>
