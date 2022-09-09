@@ -15,13 +15,30 @@
             (#{title},#{content},#{writer})
     </insert>
 
-
+    <update id="update" parameterType="BoardDto">
+        UPDATE board
+        SET title=#{title}, content=#{content}, up_date = now()
+        WHERE bno=#{bno};
+    </update>
 
     <delete id="deleteAll">
         DELETE FROM board
     </delete>
 
+    <delete id="delete" parameterType="map">
+        DELETE FROM board
+        WHERE bno = #{bno} and writer = #{writer}
+    </delete>
+
     <select id="count" resultType="int">
         SELECT count(*) FROM BOARD
     </select>
+
+    <select id="selectAll" resultType="BoardDto">
+        SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
+        FROM board
+        ORDER BY reg_date DESC, bno DESC
+    </select>
+
+<!--    selectPage부터는 강의보면서.-->
 </mapper>

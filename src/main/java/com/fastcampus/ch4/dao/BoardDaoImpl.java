@@ -5,6 +5,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public class BoardDaoImpl implements BoardDao {
     @Autowired
@@ -29,5 +33,24 @@ public class BoardDaoImpl implements BoardDao {
     @Override
     public int count() throws Exception {
         return session.selectOne(namespace+"count");
+    }
+
+    @Override
+    public List<BoardDto> selectAll() throws Exception {
+        return session.selectList(namespace+"selectAll");
+    }
+
+    @Override
+    public int update(BoardDto boardDto) throws Exception {
+        return session.update(namespace+"update", boardDto);
+    }
+
+    @Override
+    public int delete(Integer bno, String writer) throws Exception {
+//        매개변수가 두 개 상일 떄 map으로 담는 걸 잘 알아두자.
+        Map map = new HashMap();
+        map.put("bno", bno);
+        map.put("writer", writer);
+        return session.delete(namespace+"delete", map);
     }
 }
