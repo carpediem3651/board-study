@@ -40,5 +40,18 @@
         ORDER BY reg_date DESC, bno DESC
     </select>
 
-<!--    selectPage부터는 강의보면서.-->
+    <update id="increaseViewCnt" parameterType="int">
+        UPDATE board
+        SET view_cnt = view_cnt + 1
+        WHERE bno = #{bno}
+    </update>
+
+
+    <select id="selectPage" parameterType="map" resultType="BoardDto">
+        SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
+        FROM board
+        ORDER BY reg_date DESC, bno DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
 </mapper>

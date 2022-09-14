@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
 //          throw e;
         }
     }
-
+//seelctUser() 이해 못했다.
     @Override
     public User selectUser(String id) throws Exception {
         User user = null;
@@ -42,9 +42,9 @@ public class UserDaoImpl implements UserDao {
         try (
                 Connection conn = ds.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                ResultSet rs = pstmt.executeQuery(); //  select
         ){
             pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery(); //  select
 
             if (rs.next()) {
                 user = new User();

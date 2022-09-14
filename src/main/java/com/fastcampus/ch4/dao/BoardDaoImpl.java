@@ -53,4 +53,14 @@ public class BoardDaoImpl implements BoardDao {
         map.put("writer", writer);
         return session.delete(namespace+"delete", map);
     }
+
+    @Override
+    public int increaseViewCnt(Integer bno) throws Exception{
+        return session.update(namespace+"increaseViewCnt", bno);
+    }
+
+    @Override
+    public List<BoardDto> selectPage(Map map) throws Exception {
+        return session.selectList(namespace+"selectPage", map);
+    }
 }
