@@ -17,7 +17,7 @@
     <ul>
         <li id="logo">fastcampus</li>
         <li><a href="<c:url value='/'/>">Home</a></li>
-        <li><a href="<c:url value='/board/list?'/>">Board</a></li>
+        <li><a href="<c:url value='/board/list'/>">Board</a></li>
 <%--        맨위에 <c:set>태그로 loginOutLink에 관한 코드가 정의 되어있다.--%>
         <li><a href="<c:url value='${loginOutLink}'/>">${loginOut}</a></li>
         <li><a href="<c:url value='/register/add'/>">Sign in</a></li>

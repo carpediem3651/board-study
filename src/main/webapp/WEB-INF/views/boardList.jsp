@@ -7,6 +7,12 @@
     <meta charset="UTF-8">
     <title>fastcampus</title>
     <link rel="stylesheet" href="<c:url value='/css/menu.css'/>">
+    <script>
+        let msg="${msg}"
+        if(msg=="WRT_OK") alert("글이 성공적으로 등록되었습니다.");
+        if(msg=="DEL_OK") alert("성공적으로 삭제되었습니다.");
+        if(msg=="DEL_ERR")alert("삭제에 실패했습니다.");
+    </script>
 </head>
 <body>
 <div id="menu">
@@ -19,14 +25,10 @@
         <li><a href=""><i class="fas fa-search small"></i></a></li>
     </ul>
 </div>
-<script>
-    let msg="${msg}"
-    if(msg=="DEL_OK") alert("성공적으로 삭제되었습니다.");
-    if(msg="DEL_ERR") alert("삭제에 실패했습니다.")
-</script>
-
 
 <div style="text-align:center">
+<%--    function() {location.href=''} -> location.href='' 함수의 내용이 짧을 때 사용 --%>
+    <button type="button" id="writeBtn" onclick="location.href='<c:url value="/board/write"/>'">글쓰기</button>
     <table border="1">
         <tr>
             <th>번호</th>

@@ -24,6 +24,52 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @PostMapping("/modify")
+    public String modify(BoardDto boardDto, HttpSession session, Model m, RedirectAttributes rattr) {
+        String writer = (String)session.getAttribute("id");
+        boardDto.setWriter(writer);
+        try {
+            int rowCnt = boardService.modify(boardDto);
+            if(rowCnt!=1)
+                throw new Exception("Modify failed");
+
+            rattr.addFlashAttribute("msg", "MOD_OK");
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(boardDto);
+            m.addAttribute("msg", "MOD_ERR");
+            return "board";
+        }
+    }
+
+    @PostMapping("/write")
+    public String write(BoardDto boardDto, HttpSession session, Model m, RedirectAttributes rattr) {
+        String writer = (String)session.getAttribute("id");
+        boardDto.setWriter(writer);
+        try {
+            int rowCnt = boardService.write(boardDto);
+            if(rowCnt!=1)
+                throw new Exception("Write failed");
+
+            rattr.addFlashAttribute("msg", "WRT_OK");
+
+            return "redirect:/board/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+            m.addAttribute(boardDto);
+            m.addAttribute("msg", "WRT_ERR");
+            return "board";
+        }
+    }
+
+    @GetMapping("/write")
+    public String write(Model m) {
+        m.addAttribute("mode", "new");
+        return "board"; // 읽기와 쓰기에 사용. 쓰기에 사용할 때는 mode=new
+    }
+
     @PostMapping("/remove")
     public String remove(Integer bno, Integer page, Integer pageSize, Model m, HttpSession session, RedirectAttributes rattr) {
         String writer = (String)session.getAttribute("id");
@@ -35,7 +81,7 @@ public class BoardController {
             int rowCnt = boardService.remove(bno, writer);
 
 //            boardService.remove가 호출되면 1로 받아들이고, 호출이 안되면 0으로 받아들인다.
-            if(rowCnt==1)
+            if(rowCnt!=1)
                 throw new Exception("board remove error");
 
 
@@ -74,6 +120,8 @@ public class BoardController {
 
         if(page==null) page=1;
         if(pageSize==null) pageSize=10;
+
+
 
         try {
             int totalCnt = boardService.getCount();
