@@ -47,11 +47,49 @@
     </update>
 
 
-    <select id="selectPage" parameterType="map" resultType="BoardDto">
+    <select id="searchSelectPage" parameterType="SearchCondition" resultType="BoardDto">
         SELECT bno, title, content, writer, view_cnt, comment_cnt, reg_date
         FROM board
+        WHERE true
+          <choose>
+              <when test='option=="T"'>
+                  AND title LIKE concat('%', #{keyword}, '%')
+              </when>
+              <when test='option=="W"'>
+                  AND title LIKE concat('%', #{keyword}, '%')
+              </when>
+              <otherwise>
+                  AND (title LIKE concat('%', #{keyword}, '%')
+                  OR content LIKE concat('%', #{keyword}, '%'))
+              </otherwise>
+          </choose>
+        AND title LIKE concat('%', #{keyword}, '%')
         ORDER BY reg_date DESC, bno DESC
         LIMIT #{offset}, #{pageSize}
     </select>
 
+
+    <select id="searchResultCnt" parameterType="SearchCondition" resultType="int">
+        SELECT count(*)
+        FROM board
+        WHERE true
+        <choose>
+            <when test='option=="T"'>
+                AND title LIKE concat('%', #{keyword}, '%')
+            </when>
+            <when test='option=="W"'>
+                AND title LIKE concat('%', #{keyword}, '%')
+            </when>
+            <otherwise>
+                AND (title LIKE concat('%', #{keyword}, '%')
+                OR content LIKE concat('%', #{keyword}, '%'))
+            </otherwise>
+        </choose>
+    </select>
+
+    <update id="updateCommentCnt" parameterType="map">
+        UPDATE board
+        SET comment_cnt = comment_cnt + #{cnt}
+        WHERE bno = #{bno}
+    </update>
 </mapper>
